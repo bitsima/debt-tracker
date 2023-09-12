@@ -2,58 +2,71 @@ package bitsima.debttracker.model;
 
 import java.util.UUID;
 
-import bitsima.debttracker.enums.DebtType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
-@Table
 @Entity
 public class Debt {
 
     @Id
-    @GeneratedValue
-    private final UUID id = null;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private final UUID debtId = null;
 
-    @Enumerated(EnumType.STRING)
+    @OneToOne
     private DebtType debtType;
 
     @Column(nullable = false)
-    private float interestRate;
+    private long taxStartTime;
 
     @Column(nullable = false)
-    private long taxStartDate;
-
-    @Column(nullable = false)
-    private long taxDueDate;
+    private long taxDueTime;
 
     @Column(nullable = false)
     private boolean isActive;
 
-    /**
-     * @param debtType
-     * @param interestRate
-     * @param taxStartDate
-     * @param taxDueDate
-     * @param isActive
-     */
-    public Debt(DebtType debtType, float interestRate, long taxStartDate, long taxDueDate, boolean isActive) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id", nullable = false)
+    private TaxPayer taxPayer;
+
+    public Debt(DebtType debtType, long taxStartTime, long taxDueTime, boolean isActive, TaxPayer taxPayer) {
         this.debtType = debtType;
-        this.interestRate = interestRate;
-        this.taxStartDate = taxStartDate;
-        this.taxDueDate = taxDueDate;
+        this.taxStartTime = taxStartTime;
+        this.taxDueTime = taxDueTime;
         this.isActive = isActive;
+        this.taxPayer = taxPayer;
+    }
+
+    @JsonIgnore
+    public TaxPayer getTaxPayer() {
+        return taxPayer;
+    }
+
+    @JsonIgnore
+    public void setTaxPayer(TaxPayer taxPayer) {
+        this.taxPayer = taxPayer;
+    }
+
+    /**
+     * @return the taxPayer's UUID
+     */
+    public UUID getTaxPayerId() {
+        return taxPayer.getId();
     }
 
     /**
      * @return the id
      */
     public UUID getId() {
-        return id;
+        return debtId;
     }
 
     /**
@@ -71,45 +84,31 @@ public class Debt {
     }
 
     /**
-     * @return the interestRate
+     * @return the taxStartTime
      */
-    public float getInterestRate() {
-        return interestRate;
+    public long getTaxStartTime() {
+        return taxStartTime;
     }
 
     /**
-     * @param interestRate the interestRate to set
+     * @param taxStartTime the taxStartTime to set
      */
-    public void setInterestRate(float interestRate) {
-        this.interestRate = interestRate;
+    public void setTaxStartTime(long taxStartTime) {
+        this.taxStartTime = taxStartTime;
     }
 
     /**
-     * @return the taxStartDate
+     * @return the taxDueTime
      */
-    public long getTaxStartDate() {
-        return taxStartDate;
+    public long getTaxDueTime() {
+        return taxDueTime;
     }
 
     /**
-     * @param taxStartDate the taxStartDate to set
+     * @param taxDueTime the taxDueTime to set
      */
-    public void setTaxStartDate(long taxStartDate) {
-        this.taxStartDate = taxStartDate;
-    }
-
-    /**
-     * @return the taxDueDate
-     */
-    public long getTaxDueDate() {
-        return taxDueDate;
-    }
-
-    /**
-     * @param taxDueDate the taxDueDate to set
-     */
-    public void setTaxDueDate(long taxDueDate) {
-        this.taxDueDate = taxDueDate;
+    public void setTaxDueTime(long taxDueTime) {
+        this.taxDueTime = taxDueTime;
     }
 
     /**

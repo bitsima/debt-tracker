@@ -1,9 +1,12 @@
 package bitsima.debttracker.model;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
+import bitsima.debttracker.enums.Roles;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
@@ -11,14 +14,55 @@ import jakarta.persistence.MappedSuperclass;
 public abstract class Person {
 
     @Id
-    @GeneratedValue
-    private final UUID id = null;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected final UUID id = null;
 
     @Column(unique = true, nullable = false)
-    private String username = null;
+    protected String username = null;
 
     @Column(nullable = false)
-    private String passwordHash = null;
+    protected String passwordHash = null;
+
+    @Column(nullable = false)
+    protected long accountCreationTime = 0;
+
+    @Column(nullable = false)
+    protected Roles userRole = null;
+
+    /**
+     * @param userRole
+     */
+    public Person(Roles userRole) {
+        this.userRole = userRole;
+    }
+
+    /**
+     * @return the userRole
+     */
+    public Roles getUserRole() {
+        return userRole;
+    }
+
+    /**
+     * @param userRole the userRole to set
+     */
+    public void setUserRole(Roles userRole) {
+        this.userRole = userRole;
+    }
+
+    /**
+     * @return the accountCreationTime
+     */
+    public long getAccountCreationTime() {
+        return accountCreationTime;
+    }
+
+    /**
+     * @param accountCreationTime the accountCreationTime to set
+     */
+    public void setAccountCreationTime(long accountCreationTime) {
+        this.accountCreationTime = accountCreationTime;
+    }
 
     /**
      * @return the id
