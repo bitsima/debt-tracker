@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Debt {
@@ -21,7 +20,8 @@ public class Debt {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private final UUID debtId = null;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "displayName")
     private DebtType debtType;
 
     @Column(nullable = false)
