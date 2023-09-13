@@ -9,12 +9,14 @@ import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import bitsima.debttracker.dto.DebtDTO;
 import bitsima.debttracker.dto.PersonCreateDTO;
 import bitsima.debttracker.dto.TaxPayerDTO;
 import bitsima.debttracker.exceptions.UserAlreadyExistsException;
+import bitsima.debttracker.exceptions.UserNotFoundException;
 import bitsima.debttracker.model.Debt;
 import bitsima.debttracker.model.TaxPayer;
 import bitsima.debttracker.repository.DebtRepository;
@@ -67,7 +69,7 @@ public class TaxpayerService {
         return taxPayer;
     }
 
-    public Optional<TaxPayerDTO> getTaxPayerDTOById(UUID id) {
+    public TaxPayerDTO getTaxPayerDTOById(UUID id) throws UserNotFoundException {
         Optional<TaxPayer> taxPayer = taxPayerRepository.findById(id);
 
         if (taxPayer.isPresent()) {
@@ -79,9 +81,10 @@ public class TaxpayerService {
                 dtoDebts.add(debtDTO);
             }
             taxPayerDTO.setDebts(dtoDebts);
-            return Optional.of(taxPayerDTO);
+            return taxPayerDTO;
+        } else {
+            throw new UserNotFoundException();
         }
-        return Optional.of(null);
     }
 
     public void updateTaxPayer(TaxPayerDTO taxPayerDTO) {
