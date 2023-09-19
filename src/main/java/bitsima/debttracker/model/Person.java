@@ -1,31 +1,42 @@
 package bitsima.debttracker.model;
 
-import java.sql.Timestamp;
-import java.util.UUID;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import bitsima.debttracker.enums.Roles;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
+@Data
+@SuperBuilder
 @MappedSuperclass
-public abstract class Person {
+public abstract class Person implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected final UUID id = null;
-
-    @Column(unique = true, nullable = false)
-    protected String username = null;
+    protected long idNumber = 0;
 
     @Column(nullable = false)
-    protected String passwordHash = null;
+    protected String firstName = null;
+
+    @Column(nullable = false)
+    protected String lastName = null;
+
+    @Column(nullable = false)
+    protected String pass = null;
 
     @Column(nullable = false)
     protected long accountCreationTime = 0;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected Roles userRole = null;
 
@@ -36,67 +47,39 @@ public abstract class Person {
         this.userRole = userRole;
     }
 
-    /**
-     * @return the userRole
-     */
-    public Roles getUserRole() {
-        return userRole;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(userRole.getDisplayName()));
     }
 
-    /**
-     * @param userRole the userRole to set
-     */
-    public void setUserRole(Roles userRole) {
-        this.userRole = userRole;
+    @Override
+    public String getPassword() {
+        return pass;
     }
 
-    /**
-     * @return the accountCreationTime
-     */
-    public long getAccountCreationTime() {
-        return accountCreationTime;
-    }
-
-    /**
-     * @param accountCreationTime the accountCreationTime to set
-     */
-    public void setAccountCreationTime(long accountCreationTime) {
-        this.accountCreationTime = accountCreationTime;
-    }
-
-    /**
-     * @return the id
-     */
-    public UUID getId() {
-        return id;
-    }
-
-    /**
-     * @return the username
-     */
+    @Override
     public String getUsername() {
-        return username;
+        return String.valueOf(idNumber);
     }
 
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    /**
-     * @return the passwordHash
-     */
-    public String getPasswordHash() {
-        return passwordHash;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    /**
-     * @param passwordHash the passwordHash to set
-     */
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }

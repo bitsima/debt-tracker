@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class TaxPayer extends Person {
     @OneToMany(mappedBy = "taxPayer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Debt> debts = new ArrayList<>();
 
+    @Builder
     public TaxPayer() {
         super(Roles.TAXPAYER);
     }
@@ -33,4 +35,5 @@ public class TaxPayer extends Person {
     public void setDebts(List<Debt> debts) {
         this.debts = debts;
     }
+
 }
