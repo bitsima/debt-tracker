@@ -34,7 +34,7 @@ public class Debt {
     private boolean isActive;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "idNumber", nullable = false)
     private TaxPayer taxPayer;
 
     public Debt(DebtType debtType, long taxStartTime, long taxDueTime, boolean isActive, TaxPayer taxPayer) {
@@ -56,10 +56,10 @@ public class Debt {
     }
 
     /**
-     * @return the taxPayer's UUID
+     * @return the taxPayer's id
      */
-    public UUID getTaxPayerId() {
-        return taxPayer.getId();
+    public long getTaxPayerId() {
+        return taxPayer.getIdNumber();
     }
 
     /**

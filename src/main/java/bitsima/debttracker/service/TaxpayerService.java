@@ -1,15 +1,10 @@
 package bitsima.debttracker.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import bitsima.debttracker.dto.DebtDTO;
@@ -54,7 +49,7 @@ public class TaxpayerService {
     }
 
     public TaxPayer createTaxPayer(PersonCreateDTO person) throws UserAlreadyExistsException {
-        if (!taxPayerRepository.findById(person.getId()).isPresent()) {
+        if (!taxPayerRepository.findById(person.getIdNumber()).isPresent()) {
             TaxPayer taxPayer = new TaxPayer();
             modelMapper.map(person, taxPayer);
             taxPayer.setAccountCreationTime(System.currentTimeMillis());
@@ -64,12 +59,12 @@ public class TaxpayerService {
         }
     }
 
-    public Optional<TaxPayer> getTaxPayerById(UUID id) {
+    public Optional<TaxPayer> getTaxPayerById(long id) {
         Optional<TaxPayer> taxPayer = taxPayerRepository.findById(id);
         return taxPayer;
     }
 
-    public TaxPayerDTO getTaxPayerDTOById(UUID id) throws UserNotFoundException {
+    public TaxPayerDTO getTaxPayerDTOById(long id) throws UserNotFoundException {
         Optional<TaxPayer> taxPayer = taxPayerRepository.findById(id);
 
         if (taxPayer.isPresent()) {

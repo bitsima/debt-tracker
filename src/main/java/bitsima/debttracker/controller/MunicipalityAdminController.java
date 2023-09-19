@@ -1,7 +1,6 @@
 package bitsima.debttracker.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +54,7 @@ public class MunicipalityAdminController {
     }
 
     @GetMapping("/taxpayers/{taxpayer_id}")
-    public ResponseEntity<?> getTaxPayer(@PathVariable UUID id) {
+    public ResponseEntity<?> getTaxPayer(@PathVariable long id) {
         try {
             TaxPayerDTO taxpayer = taxPayerService.getTaxPayerDTOById(id);
             return ResponseEntity.ok(taxpayer);
@@ -66,7 +65,7 @@ public class MunicipalityAdminController {
 
     @PutMapping("/taxpayer/{id}/debts")
     public ResponseEntity<List<DebtDTO>> addNewDebtToTaxpayer(
-            @PathVariable UUID id,
+            @PathVariable long id,
             @RequestBody List<DebtDTO> updatedDebts) {
         try {
             TaxPayerDTO taxPayer = taxPayerService.getTaxPayerDTOById(id);
@@ -79,7 +78,7 @@ public class MunicipalityAdminController {
     }
 
     @GetMapping("/taxpayers/{taxpayer_id}/debts")
-    public ResponseEntity<List<DebtDTO>> getAllTaxesForTaxpayer(@PathVariable UUID id) {
+    public ResponseEntity<List<DebtDTO>> getAllTaxesForTaxpayer(@PathVariable long id) {
         try {
             TaxPayerDTO taxPayer = taxPayerService.getTaxPayerDTOById(id);
             List<DebtDTO> debts = taxPayer.getDebts();
