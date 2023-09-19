@@ -1,38 +1,52 @@
 package bitsima.debttracker.dto;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class TaxPayerDTO {
-    private String username;
+    private String firstName;
+    private String lastName;
+
     private String accountCreationDate;
     private String userRole = "TAXPAYER";
-    private UUID id;
+    private long idNumber;
 
     private List<DebtDTO> debts = new ArrayList<>();
 
-    public TaxPayerDTO(String username) {
-        this.username = username;
+    public TaxPayerDTO(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public TaxPayerDTO() {
     }
 
     /**
-     * @return the username
+     * @return the firstName
      */
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
     /**
-     * @param username the username to set
+     * @param firstName the firstName to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     /**
@@ -52,15 +66,15 @@ public class TaxPayerDTO {
     /**
      * @return the id
      */
-    public UUID getId() {
-        return id;
+    public long getIdNumber() {
+        return idNumber;
     }
 
     /**
-     * @param id the id to set
+     * @param idNumber the id to set
      */
-    public void setId(UUID id) {
-        this.id = id;
+    public void setIdNumber(long idNumber) {
+        this.idNumber = idNumber;
     }
 
     /**

@@ -2,27 +2,25 @@ package bitsima.debttracker.dto;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.UUID;
 
 import bitsima.debttracker.enums.Roles;
 
 public class PersonCreateDTO {
-    private UUID id;
+    private long idNumber;
+    private String firstName;
+    private String lastName;
 
-    private String username;
-    private String passwordHash;
+    private String pass;
     private String accountCreationDate;
     private String userRole;
 
     private long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 
-    /**
-     * @param username
-     * @param passwordHash
-     */
-    public PersonCreateDTO(String username, String passwordHash, Roles userRole) {
-        this.username = username;
-        this.passwordHash = passwordHash;
+    public PersonCreateDTO(long idNumber, String firstName, String lastName, String pass, Roles userRole) {
+        this.idNumber = idNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pass = pass;
         this.accountCreationDate = new Date(timestamp).toString();
         this.userRole = userRole.getDisplayName();
     }
@@ -49,31 +47,38 @@ public class PersonCreateDTO {
     }
 
     /**
-     * @return the username
+     * @return the firstName
      */
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
     /**
-     * @return the passwordHash
+     * @return the lastName
      */
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @return the pass
+     */
+    public String getPass() {
+        return pass;
     }
 
     /**
      * @return the id
      */
-    public UUID getId() {
-        return id;
+    public long getIdNumber() {
+        return idNumber;
     }
 
     /**
-     * @param id the id to set
+     * @param idNumber the id to set
      */
-    public void setId(UUID id) {
-        this.id = id;
+    public void setIdNumber(long idNumber) {
+        this.idNumber = idNumber;
     }
 
 }
