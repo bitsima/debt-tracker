@@ -1,9 +1,12 @@
 package bitsima.debttracker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import bitsima.debttracker.dto.DebtDTO;
 import bitsima.debttracker.service.DebtService;
 import bitsima.debttracker.service.TaxpayerService;
 
@@ -21,6 +24,11 @@ public class TaxpayerController {
     public TaxpayerController(DebtService debtService, TaxpayerService taxpayerService) {
         this.debtService = debtService;
         this.taxpayerService = taxpayerService;
+    }
+
+    @GetMapping("/debts")
+    public ResponseEntity<DebtDTO> getDebtsOfTaxPayer() {
+
     }
 
 }
